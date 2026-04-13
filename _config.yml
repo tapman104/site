@@ -3,8 +3,8 @@ title: "Premium Tech Blog"
 description: "High-performance insights on web dev, SEO, and agentic AI."
 author: "Your Name"
 email: "your@email.com"
-baseurl: ""                    # Leave empty for user site (username.github.io)
-url: "https://your-username.github.io"
+baseurl: "/site"                # Based on your deployment URL
+url: "https://tapman104.github.io"
 
 # Build settings
 markdown: kramdown
