@@ -1,1 +1,1 @@
-Sitemap: https://tapman104.github.io/site/sitemap.xml
+Sitemap: http://localhost:4000/site/sitemap.xml

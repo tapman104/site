@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://tapman104.github.io/site/articles/getting-started-with-static-sites/</loc>
+<loc>http://localhost:4000/site/articles/getting-started-with-static-sites/</loc>
 <lastmod>2026-04-10T15:30:00+05:30</lastmod>
 </url>
 <url>
-<loc>https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/</loc>
+<loc>http://localhost:4000/site/articles/vortex-chess-library-architecture-api/</loc>
 <lastmod>2026-04-13T15:30:00+05:30</lastmod>
 </url>
 <url>
-<loc>https://tapman104.github.io/site/articles/performance-optimizing-with-css-variables/</loc>
+<loc>http://localhost:4000/site/articles/performance-optimizing-with-css-variables/</loc>
 <lastmod>2026-04-13T19:30:00+05:30</lastmod>
 </url>
 <url>
-<loc>https://tapman104.github.io/site/about/</loc>
+<loc>http://localhost:4000/site/about/</loc>
 </url>
 <url>
-<loc>https://tapman104.github.io/site/articles/</loc>
+<loc>http://localhost:4000/site/articles/</loc>
 </url>
 <url>
-<loc>https://tapman104.github.io/site/</loc>
+<loc>http://localhost:4000/site/</loc>
 </url>
 </urlset>
