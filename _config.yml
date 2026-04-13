@@ -3,6 +3,7 @@ title: "Premium Tech Blog"
 description: "High-performance insights on web dev, SEO, and agentic AI."
 author: "Your Name"
 email: "your@email.com"
+google_site_verification: "hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw"
 baseurl: "/site"                # Based on your deployment URL
 url: "https://tapman104.github.io"
 
