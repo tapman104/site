@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+<section class="hero">
+  <div class="container">
+    <h1 id="hero-title" class="typewriter">{{ site.title }}</h1>
+    <p class="lead">{{ site.description }}</p>
+    <a href="{{ '/articles/' | relative_url }}" class="btn-magnetic">Read Articles</a>
+  </div>
+</section>
+
+<section class="container">
+  <div class="bento-grid">
+    {% for post in site.posts limit:4 %}
+    <div class="bento-item {% if forloop.first %}large{% endif %}">
+      <div class="meta-info">
+        <span>{{ post.date | date: "%B %-d, %Y" }}</span>
+      </div>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
+      <br>
+      <a href="{{ post.url | relative_url }}" style="color: var(--primary)">Read More →</a>
+    </div>
+    {% endfor %}
+    
+    <div class="bento-item">
+      <h3>About Me</h3>
+      <p>I build high-performance web systems with focus on SEO and speed.</p>
+    </div>
+  </div>
+</section>

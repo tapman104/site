@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-04-13T11:28:05+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Premium Tech Blog</title><subtitle>High-performance insights on web dev, SEO, and agentic AI.</subtitle><author><name>Your Name</name></author><entry><title type="html">Getting Started with Static Sites</title><link href="http://localhost:4000/articles/getting-started-with-static-sites/" rel="alternate" type="text/html" title="Getting Started with Static Sites" /><published>2026-04-10T15:30:00+05:30</published><updated>2026-04-10T15:30:00+05:30</updated><id>http://localhost:4000/articles/getting-started-with-static-sites</id><content type="html" xml:base="http://localhost:4000/articles/getting-started-with-static-sites/"><![CDATA[<p>Static sites are making a massive comeback, and for good reason. They’re fast, secure, and incredibly easy to deploy.</p>
+
+<h2 id="why-go-static">Why Go Static?</h2>
+
+<p>Unlike dynamic sites that generate pages on every request, static sites are pre-built HTML files. This means:</p>
+
+<ul>
+  <li><strong>Blazing Fast</strong>: No database queries or server-side processing</li>
+  <li><strong>Secure</strong>: No database to hack, no CMS vulnerabilities</li>
+  <li><strong>Reliable</strong>: CDN distribution means 99.99% uptime</li>
+  <li><strong>Scalable</strong>: Handle traffic spikes without breaking a sweat</li>
+</ul>
+
+<h2 id="jekyll--github-pages">Jekyll + GitHub Pages</h2>
+
+<p>The combination of Jekyll and GitHub Pages gives you:</p>
+
+<ol>
+  <li><strong>Free Hosting</strong>: GitHub hosts your site for free</li>
+  <li><strong>Custom Domains</strong>: Use your own domain with HTTPS</li>
+  <li><strong>Version Control</strong>: Your content is backed by Git</li>
+  <li><strong>Markdown</strong>: Write in Markdown, publish as HTML</li>
+</ol>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>To create your own site:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Jekyll (locally for testing)</span>
+gem <span class="nb">install </span>bundler jekyll
+
+<span class="c"># Create new site</span>
+jekyll new my-site
+<span class="nb">cd </span>my-site
+
+<span class="c"># Serve locally</span>
+bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<p>That’s it! Push to GitHub and your site is live.</p>]]></content><author><name>Your Name</name></author><category term="Web Development" /><category term="Static Sites" /><category term="jekyll" /><category term="github-pages" /><category term="performance" /><summary type="html"><![CDATA[Learn why static sites are the future of web development and how to build one with Jekyll.]]></summary></entry></feed>

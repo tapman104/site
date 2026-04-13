@@ -1,0 +1,47 @@
+# _config.yml
+title: "Premium Tech Blog"
+description: "High-performance insights on web dev, SEO, and agentic AI."
+author: "Your Name"
+email: "your@email.com"
+baseurl: ""                    # Leave empty for user site (username.github.io)
+url: "https://your-username.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /articles/:title/   # Clean URLs: /articles/my-post/
+
+# Plugins (GitHub Pages supported)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# Pagination
+paginate: 5
+paginate_path: "/page/:num/"
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Your Name"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .sass-cache/
+  - .jekyll-cache/
+  - vendor/
+  - node_modules/
