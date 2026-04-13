@@ -59,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { 
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px' 
+        });
 
         reveals.forEach(reveal => {
-            reveal.style.opacity = '0';
-            reveal.style.transform = 'translateY(20px)';
-            reveal.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             observer.observe(reveal);
         });
     };

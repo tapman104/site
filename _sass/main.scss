@@ -30,13 +30,18 @@
     -webkit-font-smoothing: antialiased;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg);
     color: var(--text-main);
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     font-size: var(--fs-body);
     line-height: 1.6;
-    overflow-x: hidden;
 }
 
 /* Ambient Layers */
@@ -215,6 +220,9 @@ nav {
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: opacity, transform;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
