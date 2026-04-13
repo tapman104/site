@@ -1,27 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://tapman104.github.io/site/feed.xml" rel="self" type="application/atom+xml" /><link href="https://tapman104.github.io/site/" rel="alternate" type="text/html" /><updated>2026-04-13T22:32:02+05:30</updated><id>https://tapman104.github.io/site/feed.xml</id><title type="html">Premium Tech Blog</title><subtitle>High-performance insights on web dev, SEO, and agentic AI.</subtitle><author><name>Your Name</name></author><entry><title type="html">Optimizing Performance with CSS Custom Properties</title><link href="https://tapman104.github.io/site/articles/performance-optimizing-with-css-variables/" rel="alternate" type="text/html" title="Optimizing Performance with CSS Custom Properties" /><published>2026-04-13T19:30:00+05:30</published><updated>2026-04-13T19:30:00+05:30</updated><id>https://tapman104.github.io/site/articles/performance-optimizing-with-css-variables</id><content type="html" xml:base="https://tapman104.github.io/site/articles/performance-optimizing-with-css-variables/"><![CDATA[<p>CSS Custom Properties, commonly known as <strong>CSS Variables</strong>, have revolutionized how we handle design systems. Gone are the days of needing a heavy SASS/LESS pre-processor just to change a theme color.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Vortex Chess Library: Complete Architecture &amp; API Overview | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Vortex Chess Library: Complete Architecture &amp; API Overview" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine." />
+<meta property="og:description" content="A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine." />
+<link rel="canonical" href="https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/" />
+<meta property="og:url" content="https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-13T15:30:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Vortex Chess Library: Complete Architecture &amp; API Overview" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-13T15:30:00+05:30","datePublished":"2026-04-13T15:30:00+05:30","description":"A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine.","headline":"Vortex Chess Library: Complete Architecture &amp; API Overview","mainEntityOfPage":{"@type":"WebPage","@id":"https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/"},"url":"https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/"}</script>
+<!-- End Jekyll SEO tag -->
 
-<h2 id="why-css-variables">Why CSS Variables?</h2>
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header>
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-<p>Unlike pre-processor variables, CSS custom properties are dynamic. They live in the browser’s DOM, meaning they can be updated in real-time with JavaScript or media queries without requiring a re-build.</p>
+  
+  <main>
+    <article class="container">
+  <div class="article-content">
+    <header class="article-header">
+      <div class="meta-info">
+        <time datetime="2026-04-13T15:30:00+05:30">
+          April 13, 2026
+        </time>
+        
+          <span>• by Your Name</span>
+        
+      </div>
+      <h1>Vortex Chess Library: Complete Architecture & API Overview</h1>
+    </header>
 
-<h3 id="example-usage">Example Usage</h3>
-
-<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">:root</span> <span class="p">{</span>
-  <span class="py">--primary</span><span class="p">:</span> <span class="m">#00ff85</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nc">.button</span> <span class="p">{</span>
-  <span class="nl">background</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--primary</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="performance-advantage">Performance Advantage</h2>
-
-<p>By using native CSS variables, you reduce the size of your CSS bundles. Instead of declaring redundant hex codes throughout your files, you reference a single token. This makes your site faster to load and easier to maintain.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Modern CSS is powerful enough to handle almost all design requirements. Embrace native features for a cleaner, faster web.</p>]]></content><author><name>Your Name</name></author><category term="Web Development" /><category term="CSS" /><category term="performance" /><category term="css-variables" /><category term="design" /><summary type="html"><![CDATA[How to use native CSS variables to build scalable, themeable, and high-performance design systems.]]></summary></entry><entry><title type="html">Vortex Chess Library: Complete Architecture &amp;amp; API Overview</title><link href="https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/" rel="alternate" type="text/html" title="Vortex Chess Library: Complete Architecture &amp;amp; API Overview" /><published>2026-04-13T15:30:00+05:30</published><updated>2026-04-13T15:30:00+05:30</updated><id>https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api</id><content type="html" xml:base="https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/"><![CDATA[<p>Vortex Chess is a robust, lightweight JavaScript chess rules library designed to handle complex move generation, legality checking, serialization, and game state management. What sets it apart is its native support for both standard 2-player chess and the complex 4-player chess variant.</p>
+    <div class="post-content">
+      <p>Vortex Chess is a robust, lightweight JavaScript chess rules library designed to handle complex move generation, legality checking, serialization, and game state management. What sets it apart is its native support for both standard 2-player chess and the complex 4-player chess variant.</p>
 
 <p>Below is a detailed breakdown of its internal structure, core mechanics, and public API.</p>
 
@@ -273,43 +312,58 @@
   <li><strong>Zobrist Hashing</strong>: Uses 64-bit hashes with seeded RNG for twofold/threefold repetition detection.</li>
   <li><strong>Precomputed Target Caching</strong>: Knight and king move tables are statically cached to remove boundary offset calculations in tight loops.</li>
   <li><strong>Directional Attack Maps</strong>: Backward ray-tracing detection with wrap-guards for non-standard board geometries.</li>
-</ul>]]></content><author><name>Your Name</name></author><category term="Engineering" /><category term="Chess" /><category term="javascript" /><category term="architecture" /><category term="library-design" /><category term="chess" /><summary type="html"><![CDATA[A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine.]]></summary></entry><entry><title type="html">Getting Started with Static Sites</title><link href="https://tapman104.github.io/site/articles/getting-started-with-static-sites/" rel="alternate" type="text/html" title="Getting Started with Static Sites" /><published>2026-04-10T15:30:00+05:30</published><updated>2026-04-10T15:30:00+05:30</updated><id>https://tapman104.github.io/site/articles/getting-started-with-static-sites</id><content type="html" xml:base="https://tapman104.github.io/site/articles/getting-started-with-static-sites/"><![CDATA[<p>Static sites are making a massive comeback, and for good reason. They’re fast, secure, and incredibly easy to deploy.</p>
-
-<h2 id="why-go-static">Why Go Static?</h2>
-
-<p>Unlike dynamic sites that generate pages on every request, static sites are pre-built HTML files. This means:</p>
-
-<ul>
-  <li><strong>Blazing Fast</strong>: No database queries or server-side processing</li>
-  <li><strong>Secure</strong>: No database to hack, no CMS vulnerabilities</li>
-  <li><strong>Reliable</strong>: CDN distribution means 99.99% uptime</li>
-  <li><strong>Scalable</strong>: Handle traffic spikes without breaking a sweat</li>
 </ul>
 
-<h2 id="jekyll--github-pages">Jekyll + GitHub Pages</h2>
+    </div>
 
-<p>The combination of Jekyll and GitHub Pages gives you:</p>
+    
+    <nav class="post-nav">
+      
+        <a class="prev" href="/site/articles/getting-started-with-static-sites/">
+          ← Getting Started with Static Sites
+        </a>
+      
+      
+        <a class="next" href="/site/articles/performance-optimizing-with-css-variables/">
+          Optimizing Performance with CSS Custom Properties →
+        </a>
+      
+    </nav>
+    
+  </div>
+</article>
 
-<ol>
-  <li><strong>Free Hosting</strong>: GitHub hosts your site for free</li>
-  <li><strong>Custom Domains</strong>: Use your own domain with HTTPS</li>
-  <li><strong>Version Control</strong>: Your content is backed by Git</li>
-  <li><strong>Markdown</strong>: Write in Markdown, publish as HTML</li>
-</ol>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Vortex Chess Library: Complete Architecture &amp; API Overview",
+  "description": "A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine.",
+  "author": {
+    "@type": "Person",
+    "name": "Your Name"
+  },
+  "datePublished": "2026-04-13T15:30:00+05:30",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tapman104.github.io/site/articles/vortex-chess-library-architecture-api/"
+  }
+}
+</script>
 
-<h2 id="getting-started">Getting Started</h2>
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
 
-<p>To create your own site:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Jekyll (locally for testing)</span>
-gem <span class="nb">install </span>bundler jekyll
-
-<span class="c"># Create new site</span>
-jekyll new my-site
-<span class="nb">cd </span>my-site
-
-<span class="c"># Serve locally</span>
-bundle <span class="nb">exec </span>jekyll serve
-</code></pre></div></div>
-
-<p>That’s it! Push to GitHub and your site is live.</p>]]></content><author><name>Your Name</name></author><category term="Web Development" /><category term="Static Sites" /><category term="jekyll" /><category term="github-pages" /><category term="performance" /><summary type="html"><![CDATA[Learn why static sites are the future of web development and how to build one with Jekyll.]]></summary></entry></feed>
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>
