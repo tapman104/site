@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Variants &amp; Board | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Variants &amp; Board" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Variants and Board Representation" />
+<meta property="og:description" content="Variants and Board Representation" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/variants-board/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/variants-board/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Variants &amp; Board" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Variants and Board Representation","headline":"Variants &amp; Board","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/variants-board/"},"url":"http://localhost:4000/site/docs/vortex-chess/variants-board/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="active">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>Variants & Board</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="variants-and-board-representation">Variants and Board Representation</h1>
+
+<h2 id="board-interface">Board Interface</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">Board</code> class is responsible for the physical state of the squares. It uses a 1D array to represent the 2D grid.</p>
+
+<h3 id="key-metrics">Key Metrics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Board Type</th>
+      <th>Dimensions</th>
+      <th>Array Size</th>
+      <th>Corners Masked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Standard</strong></td>
+      <td>8 x 8</td>
+      <td>128 (0x88)</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><strong>Vortex 4P</strong></td>
+      <td>14 x 14</td>
+      <td>196</td>
+      <td>Yes (3x3 per corner)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="square-mapping">Square Mapping</h2>
+
+<p>Squares are indexed from 0 to <code class="language-plaintext highlighter-rouge">WIDTH * HEIGHT - 1</code>.</p>
+
+<ul>
+  <li><strong>Occupancy</strong>: A square can contain a <code class="language-plaintext highlighter-rouge">Piece</code> (with color and type) or be <code class="language-plaintext highlighter-rouge">EMPTY</code>.</li>
+  <li><strong>Masking</strong>: In 4-player mode, corner squares are marked as <code class="language-plaintext highlighter-rouge">OFF_BOARD</code>. Pieces cannot move to or through these squares.</li>
+</ul>
+
+<h2 id="variant-configuration">Variant Configuration</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">variants.js</code> file contains the logic for switching between board types. It defines:</p>
+<ul>
+  <li>Starting FEN for each variant.</li>
+  <li>Pawn directions and promotion ranks.</li>
+  <li>Castling rules per color.</li>
+  <li>Coordinate parsing logic (e.g., <code class="language-plaintext highlighter-rouge">e4</code> -&gt; square index).</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/pgn-errors/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>PGN & Errors</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/move-generation/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Move Generation</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

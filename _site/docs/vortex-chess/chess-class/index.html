@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chess Class Orchestration | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Chess Class Orchestration" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chess Class Orchestration" />
+<meta property="og:description" content="Chess Class Orchestration" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/chess-class/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/chess-class/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chess Class Orchestration" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Chess Class Orchestration","headline":"Chess Class Orchestration","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/chess-class/"},"url":"http://localhost:4000/site/docs/vortex-chess/chess-class/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="active">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>Chess Class Orchestration</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="chess-class-orchestration">Chess Class Orchestration</h1>
+
+<h2 id="state-management">State Management</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">Chess</code> class uses a linked-list of <code class="language-plaintext highlighter-rouge">GameState</code> nodes to manage history. This allows for constant-time <code class="language-plaintext highlighter-rouge">undo()</code> and <code class="language-plaintext highlighter-rouge">redo()</code> operations while maintaining the full state for repetition detection.</p>
+
+<h3 id="member-variables">Member variables</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_head</code></td>
+      <td>The tail of the linked list (current state).</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">_board</code></td>
+      <td>Instance of the current <code class="language-plaintext highlighter-rouge">Board</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">p</code> / <code class="language-plaintext highlighter-rouge">q</code> / <code class="language-plaintext highlighter-rouge">r</code> …</td>
+      <td>Memoized results for performance.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="methods-overview">Methods Overview</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Methods</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Query</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">turn()</code>, <code class="language-plaintext highlighter-rouge">moves()</code>, <code class="language-plaintext highlighter-rouge">get()</code>, <code class="language-plaintext highlighter-rouge">history()</code>, <code class="language-plaintext highlighter-rouge">fen()</code>, <code class="language-plaintext highlighter-rouge">ascii()</code></td>
+    </tr>
+    <tr>
+      <td><strong>Logic</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">move()</code>, <code class="language-plaintext highlighter-rouge">undo()</code>, <code class="language-plaintext highlighter-rouge">load()</code>, <code class="language-plaintext highlighter-rouge">reset()</code>, <code class="language-plaintext highlighter-rouge">clear()</code></td>
+    </tr>
+    <tr>
+      <td><strong>Validation</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">inCheck()</code>, <code class="language-plaintext highlighter-rouge">isGameOver()</code>, <code class="language-plaintext highlighter-rouge">isDraw()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="move-logic-flow">Move Logic flow</h2>
+
+<ol>
+  <li><strong>Normalize</strong>: Input is converted to a move object (from-to-promotion).</li>
+  <li><strong>Validate</strong>: Check against <code class="language-plaintext highlighter-rouge">moveGen</code> and <code class="language-plaintext highlighter-rouge">legality</code>.</li>
+  <li><strong>Apply</strong>: <code class="language-plaintext highlighter-rouge">makeMove</code> updates the board and spawns a new <code class="language-plaintext highlighter-rouge">GameState</code> node.</li>
+  <li><strong>Clean up</strong>: <code class="language-plaintext highlighter-rouge">Zobrist</code> hash is updated for the new state.</li>
+</ol>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/api-contract/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>Public API Contract</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/multiplayer-logic/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Multi-player Logic</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

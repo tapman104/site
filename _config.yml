@@ -23,6 +23,11 @@ plugins:
 paginate: 5
 paginate_path: "/page/:num/"
 
+collections:
+  docs:
+    output: true
+    permalink: /docs/:path/
+
 # Default front matter
 defaults:
   - scope:
@@ -36,6 +41,11 @@ defaults:
       type: "pages"
     values:
       layout: "default"
+  - scope:
+      path: "_docs"
+      type: "docs"
+    values:
+      layout: docs
 
 # Exclude from build
 exclude:

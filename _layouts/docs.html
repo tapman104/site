@@ -1,0 +1,79 @@
+---
+layout: default
+---
+
+{% assign all_docs = site.docs | where: "doc", page.doc | sort: "order" %}
+{% assign current_index = 0 %}
+{% for p in all_docs %}
+  {% if p.url == page.url %}
+    {% assign current_index = forloop.index0 %}
+  {% endif %}
+{% endfor %}
+
+{% assign prev_index = current_index | minus: 1 %}
+{% assign prev_page = all_docs[prev_index] %}
+{% assign next_index = current_index | plus: 1 %}
+{% assign next_page = all_docs[next_index] %}
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>{{ page.doc }}</h3>
+    </div>
+    <nav>
+      <ul>
+        {% for p in all_docs %}
+          <li>
+            <a href="{{ p.url | relative_url }}"
+               class="{% if page.url == p.url %}active{% endif %}">
+              {{ p.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="{{ '/docs/' | relative_url }}">Docs</a>
+      <span>/</span>
+      <a href="{{ all_docs[0].url | relative_url }}">{{ page.doc }}</a>
+      <span>/</span>
+      <span>{{ page.title }}</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        {{ content }}
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      {% if current_index > 0 %}
+        <a href="{{ prev_page.url | relative_url }}" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>{{ prev_page.title }}</strong>
+        </a>
+      {% else %}
+        <div></div>
+      {% endif %}
+
+      {% if next_page %}
+        <a href="{{ next_page.url | relative_url }}" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>{{ next_page.title }}</strong>
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>

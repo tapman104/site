@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Engine Architecture | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Engine Architecture" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chess Engine Architecture and Layering" />
+<meta property="og:description" content="Chess Engine Architecture and Layering" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/core-architecture/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/core-architecture/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Engine Architecture" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Chess Engine Architecture and Layering","headline":"Engine Architecture","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/core-architecture/"},"url":"http://localhost:4000/site/docs/vortex-chess/core-architecture/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="active">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>Engine Architecture</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="chess-engine-architecture-and-layering">Chess Engine Architecture and Layering</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>This chess engine is built as a layered library that separates physical board representation, move generation, legality filtering, and public API orchestration. It supports both standard 8x8 chess and a four-player 14x14 variant using a unified core.</p>
+
+<h2 id="layering-model">Layering Model</h2>
+
+<pre><code class="language-mermaid">flowchart TB
+    PublicAPI[Public API: Chess class]
+    SAN[Notation: SAN and PGN]
+    Legality[Legality: Check and Pins]
+    MoveGen[Move Generation: Pseudo-legal]
+    Board[Board: Pieces and Squares]
+
+    PublicAPI --&gt; SAN
+    PublicAPI --&gt; Legality
+    PublicAPI --&gt; Board
+    SAN --&gt; Legality
+    Legality --&gt; MoveGen
+    MoveGen --&gt; Board
+</code></pre>
+
+<ol>
+  <li><strong>Board Layer</strong>: Low-level square and piece representation.</li>
+  <li><strong>Move Generation Layer</strong>: Produces every possible move regardless of king safety.</li>
+  <li><strong>Legality Layer</strong>: Filters out moves that leave the king in check.</li>
+  <li><strong>Notation Layer</strong>: Converts between internal move formats and human-readable text.</li>
+  <li><strong>Orchestration Layer</strong>: Manages game state, history, and multi-player logic.</li>
+</ol>
+
+<h2 id="variant-support">Variant Support</h2>
+
+<p>The core is designed to be variant-agnostic. Each variant defines:</p>
+<ul>
+  <li>Board dimensions</li>
+  <li>Starting positions</li>
+  <li>Piece movement rules</li>
+  <li>Win/loss conditions</li>
+</ul>
+
+<p>Currently, it supports:</p>
+<ul>
+  <li><strong>Standard</strong>: The classic 8x8 game.</li>
+  <li><strong>4-Player</strong>: A 14x14 board with specialized geometry and elimination rules.</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <div></div>
+      
+
+      
+        <a href="/site/docs/vortex-chess/four-player-rules/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>4-Player Rules</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

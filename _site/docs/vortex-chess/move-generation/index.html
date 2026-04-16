@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Move Generation | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Move Generation" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Move Generation (Pseudo-Legal)" />
+<meta property="og:description" content="Move Generation (Pseudo-Legal)" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/move-generation/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/move-generation/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Move Generation" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Move Generation (Pseudo-Legal)","headline":"Move Generation","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/move-generation/"},"url":"http://localhost:4000/site/docs/vortex-chess/move-generation/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="active">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>Move Generation</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="move-generation-pseudo-legal">Move Generation (Pseudo-Legal)</h1>
+
+<h2 id="strategy">Strategy</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">MoveGen</code> module generates “pseudo-legal” moves. A move is pseudo-legal if:</p>
+<ol>
+  <li>The piece can physically reach the destination square according to its move pattern.</li>
+  <li>The destination is either empty or occupied by an enemy piece.</li>
+  <li>The move does not pass through other pieces (except for the Knight).</li>
+</ol>
+
+<p><em>Note: King safety is handled in the <code class="language-plaintext highlighter-rouge">Legality</code> layer.</em></p>
+
+<h2 id="stepwise-logic">Stepwise Logic</h2>
+
+<ol>
+  <li><strong>Iterate</strong>: Find all pieces belonging to the current color.</li>
+  <li><strong>Scan</strong>: For each piece, calculate all possible target squares.
+    <ul>
+      <li><strong>Leaping (Knight/King)</strong>: Static offsets.</li>
+      <li><strong>Sliding (Rook/Bishop/Queen)</strong>: Incremental steps until blocked.</li>
+      <li><strong>Pawn</strong>: Conditional steps (push, double-push, capture, en-passant).</li>
+    </ul>
+  </li>
+  <li><strong>Filter</strong>: Remove moves that target <code class="language-plaintext highlighter-rouge">OFF_BOARD</code> squares (corners in 14x14).</li>
+  <li><strong>Collect</strong>: Return a list of <code class="language-plaintext highlighter-rouge">Move</code> objects.</li>
+</ol>
+
+<h2 id="optimization-the-piece-list">Optimization: The Piece List</h2>
+
+<p>Instead of scanning all 196 squares on the 14x14 board, the engine maintains a <strong>Piece List</strong>. This is an array of square indices containing active pieces. This allows the generator to skip 80% of empty squares on every turn.</p>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/variants-board/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>Variants & Board</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/legality-attacks/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Legality & Attacks</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

@@ -20,6 +20,54 @@ ul { list-style: none; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
+.docs-home { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+.docs-home-header { margin-bottom: 2.5rem; }
+.docs-home-header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.docs-home-header p { color: #888; font-size: 1.05rem; }
+
+.docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+
+.doc-card { display: flex; flex-direction: column; gap: 0.4rem; background: #0d1117; padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.07); text-decoration: none; color: #fff; transition: border-color 0.2s, transform 0.2s; position: relative; }
+.doc-card:hover { border-color: #00ffff; transform: translateY(-3px); }
+.doc-card .doc-card-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+.doc-card h2 { font-size: 1.1rem; font-weight: 600; margin: 0; }
+.doc-card p { font-size: 0.85rem; color: #666; margin: 0; }
+.doc-card .doc-card-arrow { position: absolute; bottom: 1.25rem; right: 1.25rem; color: #00ffff; font-size: 1rem; opacity: 0; transition: opacity 0.2s; }
+.doc-card:hover .doc-card-arrow { opacity: 1; }
+
+.docs-wrapper { display: flex; min-height: 100vh; max-width: 1200px; margin: 0 auto; }
+
+.docs-sidebar { width: 240px; min-width: 240px; padding: 2rem 1rem; border-right: 1px solid rgba(255, 255, 255, 0.07); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.docs-sidebar .docs-sidebar-header { margin-bottom: 1.5rem; }
+.docs-sidebar .docs-sidebar-header .docs-back { font-size: 0.8rem; color: #555; text-decoration: none; display: block; margin-bottom: 0.75rem; }
+.docs-sidebar .docs-sidebar-header .docs-back:hover { color: #00ffff; }
+.docs-sidebar .docs-sidebar-header h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin: 0; }
+.docs-sidebar nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.docs-sidebar nav a { display: block; padding: 0.45rem 0.75rem; border-radius: 6px; font-size: 0.9rem; color: #aaa; text-decoration: none; transition: background 0.15s, color 0.15s; }
+.docs-sidebar nav a:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+.docs-sidebar nav a.active { background: rgba(0, 255, 255, 0.08); color: #00ffff; font-weight: 500; }
+
+.docs-main { flex: 1; padding: 2rem 3rem; min-width: 0; }
+
+.docs-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #555; margin-bottom: 2rem; }
+.docs-breadcrumb a { color: #555; text-decoration: none; }
+.docs-breadcrumb a:hover { color: #00ffff; }
+.docs-breadcrumb span:not(:last-child) { color: #333; }
+.docs-breadcrumb span:last-child { color: #999; }
+
+.docs-nav { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.07); gap: 1rem; }
+
+.docs-nav-prev, .docs-nav-next { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.07); text-decoration: none; transition: border-color 0.2s; max-width: 45%; }
+.docs-nav-prev span, .docs-nav-next span { font-size: 0.78rem; color: #555; }
+.docs-nav-prev strong, .docs-nav-next strong { font-size: 0.9rem; color: #fff; }
+.docs-nav-prev:hover, .docs-nav-next:hover { border-color: #00ffff; }
+
+.docs-nav-next { margin-left: auto; text-align: right; }
+
+@media (max-width: 768px) { .docs-wrapper { flex-direction: column; }
+  .docs-sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.07); padding: 1rem; }
+  .docs-main { padding: 1.5rem 1rem; } }
 .site-header { padding: 1rem 0; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); position: sticky; top: 0; z-index: 1000; background: rgba(8, 8, 9, 0.8); border-bottom: 1px solid var(--border); transition: var(--transition); }
 
 nav { display: flex; justify-content: space-between; align-items: center; }

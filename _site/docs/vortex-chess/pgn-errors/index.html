@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>PGN &amp; Errors | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="PGN &amp; Errors" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="PGN and Error Handling" />
+<meta property="og:description" content="PGN and Error Handling" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/pgn-errors/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/pgn-errors/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PGN &amp; Errors" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"PGN and Error Handling","headline":"PGN &amp; Errors","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/pgn-errors/"},"url":"http://localhost:4000/site/docs/vortex-chess/pgn-errors/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="active">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>PGN & Errors</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="pgn-and-error-handling">PGN and Error Handling</h1>
+
+<h2 id="portable-game-notation-pgn">Portable Game Notation (PGN)</h2>
+
+<p>The engine can import and export games in PGN format.</p>
+
+<h3 id="header-tags">Header Tags</h3>
+
+<p>Standard tags include:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Event</code>: Name of the tournament or match.</li>
+  <li><code class="language-plaintext highlighter-rouge">Site</code>: Location.</li>
+  <li><code class="language-plaintext highlighter-rouge">Date</code>: When the game was played.</li>
+  <li><code class="language-plaintext highlighter-rouge">Round</code>: Round number.</li>
+  <li><code class="language-plaintext highlighter-rouge">White</code>/<code class="language-plaintext highlighter-rouge">Black</code> (or <code class="language-plaintext highlighter-rouge">Red</code>/<code class="language-plaintext highlighter-rouge">Blue</code>/<code class="language-plaintext highlighter-rouge">Yellow</code>/<code class="language-plaintext highlighter-rouge">Green</code> for 4-player).</li>
+  <li><code class="language-plaintext highlighter-rouge">Result</code>: Game outcome.</li>
+</ul>
+
+<h3 id="error-handling">Error Handling</h3>
+
+<p>The parser is resilient to malformed PGNs but will throw descriptive errors for critical issues.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Error Code</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">INVALID_MOVE</code></td>
+      <td>The SAN move cannot be parsed or applied to the current state.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">STRICT_VIOLATION</code></td>
+      <td>Malformed tags or syntax in strict mode.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">CAPACITY_EXCEEDED</code></td>
+      <td>The move list exceeds internal memory limits (rare).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="board-validation">Board Validation</h2>
+
+<p>Before applying an imported FEN or PGN, the engine performs a “deep check” to ensure:</p>
+<ul>
+  <li>Exactly one King per active player.</li>
+  <li>No pawns on the first or last rank (relative to color).</li>
+  <li>Active player is not in a check they cannot escape (immediate stalemate/mate).</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/san-notation/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>SAN Notation</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/variants-board/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Variants & Board</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

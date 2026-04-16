@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>4-Player Rules | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="4-Player Rules" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chess Engine Core Domain" />
+<meta property="og:description" content="Chess Engine Core Domain" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/four-player-rules/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/four-player-rules/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="4-Player Rules" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Chess Engine Core Domain","headline":"4-Player Rules","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/four-player-rules/"},"url":"http://localhost:4000/site/docs/vortex-chess/four-player-rules/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="active">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>4-Player Rules</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="chess-engine-core-domain">Chess Engine Core Domain</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>This domain layer implements the 4-player rule set used by the engine: a 14×14 board with masked corners, color-specific pawn direction, per-player castling, direct king-capture elimination, and chained eliminations when the next active player has no legal move. The same code path also keeps undo, repetition tracking, and state persistence aligned with those rules.</p>
+
+<p>The 4-player behavior is spread across several core modules. The high-level <code class="language-plaintext highlighter-rouge">Chess</code> facade coordinates move validation, state mutation, elimination, hashing, and serialization.</p>
+
+<h2 id="architecture-overview">Architecture Overview</h2>
+
+<pre><code class="language-mermaid">flowchart LR
+    subgraph Rules[Variant Rules]
+        Variants[variants js]
+        Board[Board]
+        MoveGen[moveGen js]
+        AttackMap[attackMap js]
+        Legality[legality js]
+    end
+
+    subgraph State[State and Persistence]
+        GameStateNode[GameState]
+        ChessApi[Chess]
+        MakeMove[makeMove js]
+        Fen[fen js]
+        Zobrist[zobrist js]
+    end
+
+    Variants --&gt; Board
+    Variants --&gt; GameStateNode
+    Board --&gt; MoveGen
+    Board --&gt; AttackMap
+    MoveGen --&gt; Legality
+    AttackMap --&gt; Legality
+    MakeMove --&gt; Legality
+    Legality --&gt; ChessApi
+    ChessApi --&gt; MakeMove
+    ChessApi --&gt; GameStateNode
+    ChessApi --&gt; Fen
+    ChessApi --&gt; Zobrist
+    Fen --&gt; Board
+    Fen --&gt; GameStateNode
+    Zobrist --&gt; ChessApi
+</code></pre>
+
+<h2 id="variant-and-board-topology">Variant and Board Topology</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">FOUR_PLAYER</code> config defines the board as a 14x14 grid with 3x3 corner masks. This creates the classic “plus-sign” board layout.</p>
+
+<h3 id="4-player-movement-constants">4-player movement constants</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th style="text-align: right">Index</th>
+      <th style="text-align: right">Pawn forward</th>
+      <th style="text-align: right">Start coordinate</th>
+      <th style="text-align: right">Promotion coordinate</th>
+      <th>Move axis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Red</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">14</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">13</code></td>
+      <td>Vertical</td>
+    </tr>
+    <tr>
+      <td>Blue</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">13</code></td>
+      <td>Horizontal</td>
+    </tr>
+    <tr>
+      <td>Yellow</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">-14</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">12</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td>Vertical</td>
+    </tr>
+    <tr>
+      <td>Green</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">-1</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">12</code></td>
+      <td style="text-align: right"><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td>Horizontal</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="elimination-semantics">Elimination Semantics</h2>
+
+<ul>
+  <li><strong>Direct King Capture</strong>: Capturing a king immediately eliminates the player.</li>
+  <li><strong>Piece Removal</strong>: <code class="language-plaintext highlighter-rouge">poofPieces</code> removes all pieces for that player.</li>
+  <li><strong>Turn Skipping</strong>: Dead players are skipped in the turn order.</li>
+  <li><strong>Chained Elimination</strong>: If a player has no legal moves on their turn, they are eliminated.</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/core-architecture/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>Engine Architecture</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/api-contract/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Public API Contract</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

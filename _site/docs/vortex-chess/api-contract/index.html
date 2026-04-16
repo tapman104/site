@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Public API Contract | Premium Tech Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Public API Contract" />
+<meta name="author" content="Your Name" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Public Contract vs Advanced Entry Points" />
+<meta property="og:description" content="Public Contract vs Advanced Entry Points" />
+<link rel="canonical" href="http://localhost:4000/site/docs/vortex-chess/api-contract/" />
+<meta property="og:url" content="http://localhost:4000/site/docs/vortex-chess/api-contract/" />
+<meta property="og:site_name" content="Premium Tech Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T23:44:54+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Public API Contract" />
+<meta name="google-site-verification" content="hEM99FnrKpLvJ_vU8h9GIPMOz6j8XxL0iSfQgmtpLAw" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Your Name"},"dateModified":"2026-04-16T23:44:54+05:30","datePublished":"2026-04-16T23:44:54+05:30","description":"Public Contract vs Advanced Entry Points","headline":"Public API Contract","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/site/docs/vortex-chess/api-contract/"},"url":"http://localhost:4000/site/docs/vortex-chess/api-contract/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <link rel="stylesheet" href="/site/assets/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="Premium Tech Blog" href="/site/feed.xml">
+  
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav>
+      <a href="/site/" class="logo">Premium Tech Blog</a>
+      <ul class="nav-links">
+        <li><a href="/site/">Home</a></li>
+        <li><a href="/site/articles/">Articles</a></li>
+        <li><a href="/site/about/">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    
+
+
+
+
+
+
+
+
+<div class="docs-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="/docs/" class="docs-back">← All Docs</a>
+      <h3>vortex-chess</h3>
+    </div>
+    <nav>
+      <ul>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/core-architecture/"
+               class="">
+              Engine Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/four-player-rules/"
+               class="">
+              4-Player Rules
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/api-contract/"
+               class="active">
+              Public API Contract
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/chess-class/"
+               class="">
+              Chess Class Orchestration
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/multiplayer-logic/"
+               class="">
+              Multi-player Logic
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/san-notation/"
+               class="">
+              SAN Notation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/pgn-errors/"
+               class="">
+              PGN & Errors
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/variants-board/"
+               class="">
+              Variants & Board
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/move-generation/"
+               class="">
+              Move Generation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/site/docs/vortex-chess/legality-attacks/"
+               class="">
+              Legality & Attacks
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="docs-main">
+
+    <!-- Breadcrumb -->
+    <nav class="docs-breadcrumb">
+      <a href="/site/docs/">Docs</a>
+      <span>/</span>
+      <a href="/site/docs/vortex-chess/core-architecture/">vortex-chess</a>
+      <span>/</span>
+      <span>Public API Contract</span>
+    </nav>
+
+    <!-- Content -->
+    <main class="docs-content">
+      <div class="post-content">
+        <h1 id="public-contract-vs-advanced-entry-points">Public Contract vs Advanced Entry Points</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">vortex-chess-library</code> exposes a tiered API. Most users will only interact with the <code class="language-plaintext highlighter-rouge">Chess</code> class, while engine developers and UI implementers might need the lower-level core modules for custom variants or performance-sensitive move generation.</p>
+
+<h2 id="tier-1-the-chess-class-recommended">Tier 1: The Chess Class (Recommended)</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">Chess</code> class is the primary entry point. it manages state, history, and notation.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Chess</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vortex-chess-library</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">game</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chess</span><span class="p">();</span>
+<span class="nx">game</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="dl">'</span><span class="s1">e4</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">game</span><span class="p">.</span><span class="nx">ascii</span><span class="p">());</span>
+</code></pre></div></div>
+
+<h2 id="tier-2-core-modules-advanced">Tier 2: Core Modules (Advanced)</h2>
+
+<p>Core modules provide the building blocks for the engine.</p>
+
+<ul>
+  <li><strong>Board</strong>: Raw square data and piece lists.</li>
+  <li><strong>MoveGen</strong>: Pseudo-legal move production.</li>
+  <li><strong>Legality</strong>: King safety and check detection.</li>
+  <li><strong>AttackMap</strong>: Square-level attack scanning.</li>
+</ul>
+
+<h2 id="tier-3-io-and-state">Tier 3: IO and State</h2>
+
+<ul>
+  <li><strong>FEN</strong>: String serialization and parsing.</li>
+  <li><strong>PGN</strong>: Game history import/export.</li>
+  <li><strong>Zobrist</strong>: Hashing for repetition detection.</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Prev / Next -->
+    <div class="docs-nav">
+      
+        <a href="/site/docs/vortex-chess/four-player-rules/" class="docs-nav-prev">
+          <span>← Previous</span>
+          <strong>4-Player Rules</strong>
+        </a>
+      
+
+      
+        <a href="/site/docs/vortex-chess/chess-class/" class="docs-nav-next">
+          <span>Next →</span>
+          <strong>Chess Class Orchestration</strong>
+        </a>
+      
+    </div>
+
+  </div>
+</div>
+
+  </main>
+  
+  <footer>
+  <div class="container">
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+    <p>
+      <a href="/site/feed.xml">RSS Feed</a> | 
+      <a href="/site/sitemap.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+  
+  <script src="/site/assets/js/main.js"></script>
+</body>
+</html>

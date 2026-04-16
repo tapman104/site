@@ -1,0 +1,27 @@
+---
+layout: default
+title: Documentation
+permalink: /docs/
+---
+
+<div class="docs-home">
+  <div class="docs-home-header">
+    <h1>Documentation</h1>
+    <p>Guides, references, and API docs for all projects.</p>
+  </div>
+
+  {% assign groups = site.docs | group_by: "doc" %}
+
+  <div class="docs-grid">
+    {% for group in groups %}
+      {% assign sorted = group.items | sort: "order" %}
+      {% assign first = sorted | first %}
+      <a class="doc-card" href="{{ first.url | relative_url }}">
+        <div class="doc-card-icon">📦</div>
+        <h2>{{ group.name }}</h2>
+        <p>{{ group.items.size }} pages</p>
+        <span class="doc-card-arrow">→</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
