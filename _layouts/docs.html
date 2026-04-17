@@ -11,17 +11,22 @@ layout: default
 {% endfor %}
 
 {% assign prev_index = current_index | minus: 1 %}
-{% assign prev_page = all_docs[prev_index] %}
+{% assign prev_page = nil %}
+{% if current_index > 0 %}
+  {% assign prev_page = all_docs[prev_index] %}
+{% endif %}
 {% assign next_index = current_index | plus: 1 %}
 {% assign next_page = all_docs[next_index] %}
+
+{% assign doc_title = page.doc | replace: "-", " " | split: " " | map: "capitalize" | join: " " %}
 
 <div class="docs-wrapper">
 
   <!-- Sidebar -->
   <aside class="docs-sidebar">
     <div class="docs-sidebar-header">
-      <a href="/docs/" class="docs-back">← All Docs</a>
-      <h3>{{ page.doc }}</h3>
+      <a href="{{ '/docs/' | relative_url }}" class="docs-back">← All Docs</a>
+      <h3>{{ doc_title }}</h3>
     </div>
     <nav>
       <ul>
@@ -44,7 +49,7 @@ layout: default
     <nav class="docs-breadcrumb">
       <a href="{{ '/docs/' | relative_url }}">Docs</a>
       <span>/</span>
-      <a href="{{ all_docs[0].url | relative_url }}">{{ page.doc }}</a>
+      <a href="{{ all_docs[0].url | relative_url }}">{{ doc_title }}</a>
       <span>/</span>
       <span>{{ page.title }}</span>
     </nav>

@@ -18,7 +18,7 @@ permalink: /docs/
       {% assign first = sorted | first %}
       <a class="doc-card" href="{{ first.url | relative_url }}">
         <div class="doc-card-icon">📦</div>
-        <h2>{{ group.name }}</h2>
+        <h2>{{ group.name | replace: "-", " " | split: " " | map: "capitalize" | join: " " }}</h2>
         <p>{{ group.items.size }} pages</p>
         <span class="doc-card-arrow">→</span>
       </a>
