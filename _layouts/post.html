@@ -4,16 +4,33 @@ layout: default
 
 <article class="container">
   <div class="article-content">
+    <a href="{{ '/articles/' | relative_url }}" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      Back to Articles
+    </a>
+
     <header class="article-header">
-      <div class="meta-info">
+      <div class="hero-glow hero-glow-1" style="width: 400px; height: 400px; opacity: 0.1; top: -50px; left: -50px;"></div>
+      <div class="hero-glow hero-glow-2" style="width: 400px; height: 400px; opacity: 0.1; bottom: -50px; right: -50px;"></div>
+      
+      {% if page.categories.size > 0 %}
+      <div class="hero-badge" style="margin-bottom: 1.5rem;">
+        <span class="pulse"></span> {{ page.categories | first }}
+      </div>
+      {% endif %}
+
+      <h1>{{ page.title }}</h1>
+
+      <div class="meta-info" style="justify-content: center; margin-top: 2rem;">
         <time datetime="{{ page.date | date_to_xmlschema }}">
           {{ page.date | date: "%B %-d, %Y" }}
         </time>
         {% if page.author %}
           <span>• by {{ page.author }}</span>
         {% endif %}
+        <span>•</span>
+        <span>{{ page.content | number_of_words | divided_by: 200 | plus: 1 }} min read</span>
       </div>
-      <h1>{{ page.title }}</h1>
     </header>
 
     <div class="post-content">

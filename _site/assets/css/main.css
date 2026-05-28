@@ -662,14 +662,12 @@ nav {
 }
 
 .article-header {
-  margin-bottom: 5rem;
-  padding: 6rem 2rem 4rem;
+  margin-bottom: 4rem;
+  padding: 3rem 2rem 2.5rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 40px;
-  border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
 }
@@ -687,10 +685,10 @@ nav {
 
 .article-header h1 {
   font-family: "Outfit", sans-serif;
-  font-size: var(--fs-h1);
-  line-height: 1.15;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.2;
   margin-bottom: 0;
-  background: linear-gradient(to bottom, #fff, #999);
+  background: linear-gradient(to bottom, #fff, #aaa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
