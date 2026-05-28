@@ -3,30 +3,54 @@ layout: default
 ---
 
 <section class="hero">
-  <div class="container">
-    <h1 id="hero-title" class="typewriter">{{ site.title }}</h1>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="pulse"></span> Empowering the Web
+    </div>
+    <h1 id="hero-title" class="hero-title">{{ site.title }}</h1>
     <p class="lead">{{ site.description }}</p>
-    <a href="{{ '/articles/' | relative_url }}" class="btn-magnetic">Read Articles</a>
+    <div class="hero-actions">
+      <a href="{{ '/articles/' | relative_url }}" class="btn-primary">Explore Articles</a>
+      <a href="{{ '/docs/' | relative_url }}" class="btn-secondary">Read Docs</a>
+    </div>
   </div>
 </section>
 
 <section class="container">
+  <div class="section-header">
+    <h2 class="section-title">Latest Insights</h2>
+    <p class="section-subtitle">Deep dives into performance, SEO, and Agentic AI.</p>
+  </div>
+  
   <div class="bento-grid">
-    {% for post in site.posts limit:4 %}
-    <div class="bento-item {% if forloop.first %}large{% endif %}">
-      <div class="meta-info">
-        <span>{{ post.date | date: "%B %-d, %Y" }}</span>
+    {% for post in site.posts limit:5 %}
+    <a href="{{ post.url | relative_url }}" class="bento-item {% if forloop.first %}featured{% endif %}">
+      <div class="bento-inner">
+        <div class="meta-info">
+          <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+        </div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <div class="read-more">
+          <span>Read Article</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
       </div>
-      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-      <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
-      <br>
-      <a href="{{ post.url | relative_url }}" style="color: var(--primary)">Read More →</a>
-    </div>
+    </a>
     {% endfor %}
     
-    <div class="bento-item">
-      <h3>About Me</h3>
-      <p>I build high-performance web systems with focus on SEO and speed.</p>
+    <div class="bento-item profile-bento">
+      <div class="bento-inner">
+        <h3>About the Author</h3>
+        <p>I build high-performance web systems with a focus on SEO and speed. Let's create something extraordinary.</p>
+        <div class="read-more">
+          <span>More about me</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </div>
+      </div>
     </div>
   </div>
 </section>

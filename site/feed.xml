@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/site/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/site/" rel="alternate" type="text/html" /><updated>2026-04-16T23:48:25+05:30</updated><id>http://localhost:4000/site/feed.xml</id><title type="html">Premium Tech Blog</title><subtitle>High-performance insights on web dev, SEO, and agentic AI.</subtitle><author><name>Your Name</name></author><entry><title type="html">Optimizing Performance with CSS Custom Properties</title><link href="http://localhost:4000/site/articles/performance-optimizing-with-css-variables/" rel="alternate" type="text/html" title="Optimizing Performance with CSS Custom Properties" /><published>2026-04-13T19:30:00+05:30</published><updated>2026-04-13T19:30:00+05:30</updated><id>http://localhost:4000/site/articles/performance-optimizing-with-css-variables</id><content type="html" xml:base="http://localhost:4000/site/articles/performance-optimizing-with-css-variables/"><![CDATA[<p>CSS Custom Properties, commonly known as <strong>CSS Variables</strong>, have revolutionized how we handle design systems. Gone are the days of needing a heavy SASS/LESS pre-processor just to change a theme color.</p>
+
+<h2 id="why-css-variables">Why CSS Variables?</h2>
+
+<p>Unlike pre-processor variables, CSS custom properties are dynamic. They live in the browser’s DOM, meaning they can be updated in real-time with JavaScript or media queries without requiring a re-build.</p>
+
+<h3 id="example-usage">Example Usage</h3>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">:root</span> <span class="p">{</span>
+  <span class="py">--primary</span><span class="p">:</span> <span class="m">#00ff85</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.button</span> <span class="p">{</span>
+  <span class="nl">background</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--primary</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="performance-advantage">Performance Advantage</h2>
+
+<p>By using native CSS variables, you reduce the size of your CSS bundles. Instead of declaring redundant hex codes throughout your files, you reference a single token. This makes your site faster to load and easier to maintain.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Modern CSS is powerful enough to handle almost all design requirements. Embrace native features for a cleaner, faster web.</p>]]></content><author><name>Your Name</name></author><category term="Web Development" /><category term="CSS" /><category term="performance" /><category term="css-variables" /><category term="design" /><summary type="html"><![CDATA[How to use native CSS variables to build scalable, themeable, and high-performance design systems.]]></summary></entry><entry><title type="html">Vortex Chess Library: Complete Architecture &amp;amp; API Overview</title><link href="http://localhost:4000/site/articles/vortex-chess-library-architecture-api/" rel="alternate" type="text/html" title="Vortex Chess Library: Complete Architecture &amp;amp; API Overview" /><published>2026-04-13T15:30:00+05:30</published><updated>2026-04-13T15:30:00+05:30</updated><id>http://localhost:4000/site/articles/vortex-chess-library-architecture-api</id><content type="html" xml:base="http://localhost:4000/site/articles/vortex-chess-library-architecture-api/"><![CDATA[<p>Vortex Chess is a robust, lightweight JavaScript chess rules library designed to handle complex move generation, legality checking, serialization, and game state management. What sets it apart is its native support for both standard 2-player chess and the complex 4-player chess variant.</p>
+
+<p>Below is a detailed breakdown of its internal structure, core mechanics, and public API.</p>
+
+<h2 id="1-project-structure">1. Project Structure</h2>
+
+<p>The codebase is organized into distinct domains separating the core engine from state management and user-facing APIs.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4chess/
+├── index.js                     [ Main entry point ]
+├── package.json                 [ ES module, v1.0.0 ]
+├── README.md                    [ API documentation ]
+├── chess-engine/                [ Core Implementation ]
+│   ├── index.js                 
+│   ├── api/                     [ User-Facing API ]
+│   │   ├── chess.js             # Main Chess class
+│   │   ├── errors.js            # InvalidMove/FEN errors
+│   │   ├── pgn.js               # PGN export/import
+│   │   └── san.js               # SAN notation converter
+│   ├── core/                    [ Engine Core ]
+│   │   ├── variants.js          # STANDARD &amp; FOUR_PLAYER configs
+│   │   ├── board.js             # Board &amp; piece storage
+│   │   ├── moveGen.js           # Pseudo-legal move gen
+│   │   ├── legality.js          # Legal move filtering
+│   │   ├── makeMove.js          # Execution &amp; Undo
+│   │   ├── attackMap.js         # Square attack detection
+│   │   └── zobrist.js           # Position hashing
+│   ├── io/                      [ Serialization ]
+│   │   └── fen.js               # FEN import/export
+│   └── state/                   [ State Management ]
+│       └── gameState.js         # Turn, castling, clocks
+├── test/                        [ Test Suite ]
+│   └── verify.js                # Verification tests
+└── bench/                       [ Benchmarks ]
+    └── perft.js                 # Nodes-per-second test
+</code></pre></div></div>
+
+<h2 id="2-architecture-overview">2. Architecture Overview</h2>
+
+<p>The library utilizes a strict three-layer architectural design, ensuring that IO parsing doesn’t interfere with core board math, and state is completely separated from move generation.</p>
+
+<h3 id="21-the-three-layer-design">2.1 The Three-Layer Design</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  +---------------------------------------------------------+
+  |                      API LAYER                          |
+  |  Validates user input, converts notations (SAN/PGN)     |
+  |         [ chess.js ] [ pgn.js ] [ san.js ]              |
+  +---------------------------------------------------------+
+                               |
+       (Parsed Moves / FEN)    |    (Sanitized State Data)
+                               V
+  +---------------------------------------------------------+
+  |                     CORE ENGINE                         |
+  |  Mathematical grid, pseudo/legal move gen, execution    |
+  |   [ board.js ] [ moveGen.js ] [ legality.js ]           |
+  +---------------------------------------------------------+
+                               |
+      (Board State Updates)    |    (Hash / State Checks)
+                               V
+  +---------------------------------------------------------+
+  |                     STATE &amp; I/O                         |
+  |  Turn tracking, castling rights, Zobrist hashing        |
+  |      [ gameState.js ] [ zobrist.js ] [ fen.js ]         |
+  +---------------------------------------------------------+
+</code></pre></div></div>
+
+<h3 id="22-key-classes">2.2 Key Classes</h3>
+
+<ul>
+  <li><strong>Chess</strong>: The main game controller (<code class="language-plaintext highlighter-rouge">api/chess.js</code>).</li>
+  <li><strong>Board</strong>: Handles piece storage and coordinate math (<code class="language-plaintext highlighter-rouge">core/board.js</code>).</li>
+  <li><strong>GameState</strong>: Tracks turns, castling rights, clocks, and player status (<code class="language-plaintext highlighter-rouge">state/gameState.js</code>).</li>
+  <li><strong>MoveList</strong>: Handles packed move integer storage (<code class="language-plaintext highlighter-rouge">core/moveGen.js</code>).</li>
+</ul>
+
+<h2 id="3-supported-variants">3. Supported Variants</h2>
+
+<h3 id="31-standard-chess-standardv1">3.1 Standard Chess (<code class="language-plaintext highlighter-rouge">standard@v1</code>)</h3>
+
+<ul>
+  <li><strong>Board</strong>: 8×8 grid</li>
+  <li><strong>Players</strong>: 2 (White=0, Black=1)</li>
+  <li><strong>FEN</strong>: Standard formatting</li>
+  <li><strong>Castling</strong>: Standard <code class="language-plaintext highlighter-rouge">KQkq</code> notation</li>
+</ul>
+
+<h3 id="32-four-player-chess-4playerv1">3.2 Four-Player Chess (<code class="language-plaintext highlighter-rouge">4player@v1</code>)</h3>
+
+<p>The 4-player variant features a massive 14x14 grid with 3x3 dead zones in the corners to create a cross-like battlefield.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      a  b  c  d  e  f  g  h  i  j  k  l  m  n
+    +------------------------------------------+
+ 14 |/////////|         RED (Up)     |/////////| 14
+ 13 |/////////| [R][N][B][K][Q][B][N][R]///////| 13
+ 12 |///DEAD//| [P][P][P][P][P][P][P][P]/DEAD//| 12
+ 11 +---------+                          +-----+ 11
+ 10 |   [P]                              [P]   | 10
+  9 |G  [P]                              [P]  B| 9
+  8 |R  [P]          CENTER              [P]  L| 8
+  7 |E  [P]        BATTLEFIELD           [P]  U| 7
+  6 |E  [P]                              [P]  E| 6
+  5 |N  [P]                              [P]   | 5
+  4 +---------+                          +-----+ 4
+  3 |///DEAD//| [P][P][P][P][P][P][P][P]/DEAD//| 3
+  2 |/////////| [R][N][B][Q][K][B][N][R]///////| 2
+  1 |/////////|       YELLOW (Down)  |/////////| 1
+    +------------------------------------------+
+      a  b  c  d  e  f  g  h  i  j  k  l  m  n
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Pawn Directions</strong>: Up (Red), Right (Blue), Down (Yellow), Left (Green).</li>
+  <li><strong>FEN</strong>: Uses an 8-character castling field (e.g., <code class="language-plaintext highlighter-rouge">KQKQKQKQ</code> or <code class="language-plaintext highlighter-rouge">_</code>).</li>
+  <li><strong>Player Labels</strong>: R (Red), B (Blue), Y (Yellow), G (Green).</li>
+</ul>
+
+<h2 id="4-core-mechanics">4. Core Mechanics</h2>
+
+<h3 id="41-32-bit-move-encoding">4.1 32-Bit Move Encoding</h3>
+
+<p>To achieve high performance, moves are packed into a single 32-bit integer (<code class="language-plaintext highlighter-rouge">Int32</code>). This reduces garbage collection overhead and memory footprints during deep tree searches (like in Perft tests).</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Bit: 31                         20 19      16 15        8 7         0
+      +----------------------------+----------+-----------+-----------+
+      |       Unused / Padding     |   Flags  | To Square |From Square|
+      |          (12 bits)         | (4 bits) |  (8 bits) |  (8 bits) |
+      +----------------------------+----------+-----------+-----------+
+           Promo piece (Bits 20-22) ^
+</code></pre></div></div>
+
+<p><strong>Flag Definitions:</strong></p>
+<ul>
+  <li>0: QUIET (Normal move)</li>
+  <li>1: DOUBLE_PUSH</li>
+  <li>2: CASTLE_K / 3: CASTLE_Q</li>
+  <li>4: CAPTURE / 5: EP_CAPTURE</li>
+  <li>8: PROMO / 12: PROMO_CAPTURE</li>
+</ul>
+
+<h3 id="42-move-generation-pipeline">4.2 Move Generation Pipeline</h3>
+
+<ol>
+  <li><strong>Pseudo-legal generation</strong>: <code class="language-plaintext highlighter-rouge">generateMoves()</code> evaluates board math to find all theoretical piece movements.</li>
+  <li><strong>Legality filtering</strong>: <code class="language-plaintext highlighter-rouge">getLegalMoves()</code> runs check-validation to filter out moves that leave/put the friendly king in check.</li>
+  <li><strong>Make/Undo</strong>: <code class="language-plaintext highlighter-rouge">makeMove()</code> and <code class="language-plaintext highlighter-rouge">unmakeMove()</code> mutate the board and state array with full reversibility.</li>
+</ol>
+
+<h3 id="43-4-player-elimination-mechanics">4.3 4-Player Elimination Mechanics</h3>
+
+<p>Vortex natively supports the complex elimination rules of 4-way chess:</p>
+
+<ul>
+  <li><strong>King Capture</strong>: Capturing a king instantly eliminates that player.</li>
+  <li><strong>Checkmate Elimination</strong>: Players with no legal moves who are in check are eliminated.</li>
+  <li><strong>Stalemate</strong>: Players with no legal moves (but not in check) are eliminated (no stalemate draws in 4P).</li>
+  <li><strong>Piece Poofing</strong>: When a player is eliminated, all of their remaining pieces are immediately removed (“poofed”) from the board.</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Internal Execution Flow (chess.js)</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">variant</span><span class="p">.</span><span class="nx">numPlayers</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">undo</span><span class="p">.</span><span class="nx">captured</span> <span class="o">!==</span> <span class="nx">Pieces</span><span class="p">.</span><span class="nx">EMPTY</span> <span class="o">&amp;&amp;</span> <span class="nx">getType</span><span class="p">(</span><span class="nx">undo</span><span class="p">.</span><span class="nx">captured</span><span class="p">)</span> <span class="o">===</span> <span class="nx">Pieces</span><span class="p">.</span><span class="nx">KING</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">capturedColor</span> <span class="o">=</span> <span class="nx">getColor</span><span class="p">(</span><span class="nx">undo</span><span class="p">.</span><span class="nx">captured</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_state</span><span class="p">.</span><span class="nx">eliminatePlayer</span><span class="p">(</span><span class="nx">capturedColor</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">poofed</span> <span class="o">=</span> <span class="nx">poofPieces</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_board</span><span class="p">,</span> <span class="nx">capturedColor</span><span class="p">);</span>
+    <span class="nx">undo</span><span class="p">.</span><span class="nx">eliminatedAtOnce</span><span class="p">.</span><span class="nx">push</span><span class="p">(...</span><span class="nx">poofed</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">_processCheckmateEliminations</span><span class="p">(</span><span class="nx">undo</span><span class="p">);</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="5-public-api-highlights">5. Public API Highlights</h2>
+
+<h3 id="51-basic-usage">5.1 Basic Usage</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Chess</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vortex-chess</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Standard chess</span>
+<span class="kd">const</span> <span class="nx">game</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chess</span><span class="p">();</span>
+<span class="nx">game</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="dl">'</span><span class="s1">e4</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">game</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="dl">'</span><span class="s1">e5</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// 4-player chess setup</span>
+<span class="kd">const</span> <span class="nx">fourPlayer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chess</span><span class="p">({</span> <span class="na">variant</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4player</span><span class="dl">'</span> <span class="p">});</span>
+<span class="nx">fourPlayer</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="dl">'</span><span class="s1">e4</span><span class="dl">'</span><span class="p">);</span>  <span class="c1">// Red moves</span>
+<span class="nx">fourPlayer</span><span class="p">.</span><span class="nx">move</span><span class="p">(</span><span class="dl">'</span><span class="s1">c7</span><span class="dl">'</span><span class="p">);</span>  <span class="c1">// Blue moves</span>
+</code></pre></div></div>
+
+<h3 id="52-move-input--output">5.2 Move Input / Output</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Input Format</th>
+      <th style="text-align: left">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>SAN string</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">game.move('Nf3')</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Coordinate Obj</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">game.move({ from: 'e2', to: 'e4' })</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>With Promotion</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">game.move({ from: 'a7', to: 'a8', promotion: 'q' })</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Returned Move Object:</strong></p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e2"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e4"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"piece"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"captured"</span><span class="p">:</span><span class="w"> </span><span class="err">undefined</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"promotion"</span><span class="p">:</span><span class="w"> </span><span class="err">undefined</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"flags"</span><span class="p">:</span><span class="w"> </span><span class="s2">"n"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"san"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e4"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"w"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="53-serialization">5.3 Serialization</h3>
+
+<ul>
+  <li><strong>FEN Management</strong>: <code class="language-plaintext highlighter-rouge">game.fen()</code> (Export), <code class="language-plaintext highlighter-rouge">game.load(fen)</code> (Import).</li>
+  <li><strong>JSON</strong>: Full deterministic state roundtrip via <code class="language-plaintext highlighter-rouge">game.toJSON()</code>.</li>
+  <li><strong>PGN Output</strong>: Supports multi-player formatting: <code class="language-plaintext highlighter-rouge">game.pgn({ format: '4player' })</code>.</li>
+</ul>
+
+<h2 id="6-advanced-engine-exports">6. Advanced Engine Exports</h2>
+
+<p>For developers wanting to build UI components or AI bots without the overhead of the main controller:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="p">{</span> <span class="nx">Board</span><span class="p">,</span> <span class="nx">Pieces</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./core/board.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">GameState</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./state/gameState.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">getLegalMoves</span><span class="p">,</span> <span class="nx">isMoveLegal</span><span class="p">,</span> <span class="nx">findKing</span><span class="p">,</span> <span class="nx">inCheck</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./core/legality.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">makeMove</span><span class="p">,</span> <span class="nx">unmakeMove</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./core/makeMove.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">computeHash</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./core/zobrist.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">exportFEN</span><span class="p">,</span> <span class="nx">parseFEN</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./io/fen.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="p">{</span> <span class="nx">moveToSAN</span><span class="p">,</span> <span class="nx">sanToMove</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./api/san.js</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="7-key-technical-details">7. Key Technical Details</h2>
+
+<ul>
+  <li><strong>Zobrist Hashing</strong>: Uses 64-bit hashes with seeded RNG for twofold/threefold repetition detection.</li>
+  <li><strong>Precomputed Target Caching</strong>: Knight and king move tables are statically cached to remove boundary offset calculations in tight loops.</li>
+  <li><strong>Directional Attack Maps</strong>: Backward ray-tracing detection with wrap-guards for non-standard board geometries.</li>
+</ul>]]></content><author><name>Your Name</name></author><category term="Engineering" /><category term="Chess" /><category term="javascript" /><category term="architecture" /><category term="library-design" /><category term="chess" /><summary type="html"><![CDATA[A deep dive into the 32-bit move encoding, three-layer architecture, and 4-player variant support of the Vortex Chess engine.]]></summary></entry><entry><title type="html">Getting Started with Static Sites</title><link href="http://localhost:4000/site/articles/getting-started-with-static-sites/" rel="alternate" type="text/html" title="Getting Started with Static Sites" /><published>2026-04-10T15:30:00+05:30</published><updated>2026-04-10T15:30:00+05:30</updated><id>http://localhost:4000/site/articles/getting-started-with-static-sites</id><content type="html" xml:base="http://localhost:4000/site/articles/getting-started-with-static-sites/"><![CDATA[<p>Static sites are making a massive comeback, and for good reason. They’re fast, secure, and incredibly easy to deploy.</p>
+
+<h2 id="why-go-static">Why Go Static?</h2>
+
+<p>Unlike dynamic sites that generate pages on every request, static sites are pre-built HTML files. This means:</p>
+
+<ul>
+  <li><strong>Blazing Fast</strong>: No database queries or server-side processing</li>
+  <li><strong>Secure</strong>: No database to hack, no CMS vulnerabilities</li>
+  <li><strong>Reliable</strong>: CDN distribution means 99.99% uptime</li>
+  <li><strong>Scalable</strong>: Handle traffic spikes without breaking a sweat</li>
+</ul>
+
+<h2 id="jekyll--github-pages">Jekyll + GitHub Pages</h2>
+
+<p>The combination of Jekyll and GitHub Pages gives you:</p>
+
+<ol>
+  <li><strong>Free Hosting</strong>: GitHub hosts your site for free</li>
+  <li><strong>Custom Domains</strong>: Use your own domain with HTTPS</li>
+  <li><strong>Version Control</strong>: Your content is backed by Git</li>
+  <li><strong>Markdown</strong>: Write in Markdown, publish as HTML</li>
+</ol>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>To create your own site:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Jekyll (locally for testing)</span>
+gem <span class="nb">install </span>bundler jekyll
+
+<span class="c"># Create new site</span>
+jekyll new my-site
+<span class="nb">cd </span>my-site
+
+<span class="c"># Serve locally</span>
+bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<p>That’s it! Push to GitHub and your site is live.</p>]]></content><author><name>Your Name</name></author><category term="Web Development" /><category term="Static Sites" /><category term="jekyll" /><category term="github-pages" /><category term="performance" /><summary type="html"><![CDATA[Learn why static sites are the future of web development and how to build one with Jekyll.]]></summary></entry></feed>
