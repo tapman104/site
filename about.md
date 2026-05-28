@@ -17,5 +17,8 @@ permalink: /about/
     <li><strong>Technical Writing</strong>: Sharing knowledge through deep-dive articles and guides.</li>
   </ul>
 
-  <p><a href="mailto:{{ site.email }}" class="btn-magnetic">Get in touch</a></p>
+  <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+    <a href="mailto:{{ site.email }}" class="btn-primary">Get in touch</a>
+    <a href="https://buymeacoffee.com/tapman" target="_blank" rel="noopener noreferrer" class="btn-secondary">Buy me a coffee</a>
+  </div>
 </div>
