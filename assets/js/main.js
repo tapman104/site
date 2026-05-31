@@ -78,4 +78,60 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Always start reveal independent of typewriter
     revealOnScroll();
+
+    // Dynamic Mermaid.js Rendering
+    const mermaidElements = document.querySelectorAll('pre code.language-mermaid, pre.language-mermaid, div.language-mermaid pre, .language-mermaid');
+    if (mermaidElements.length > 0) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+        script.onload = () => {
+            mermaidElements.forEach((el) => {
+                // Determine target node to replace
+                let targetNode = el;
+                if (el.tagName === 'CODE') {
+                    targetNode = el.parentElement;
+                }
+                if (targetNode.parentElement && targetNode.parentElement.classList.contains('highlighter-rouge')) {
+                    targetNode = targetNode.parentElement;
+                }
+                
+                const code = el.textContent.trim();
+                if (!code) return;
+
+                const container = document.createElement('div');
+                container.className = 'mermaid';
+                container.style.background = '#0e0e0f';
+                container.style.border = '1px solid rgba(255, 255, 255, 0.05)';
+                container.style.borderRadius = '16px';
+                container.style.padding = '2rem 1.5rem';
+                container.style.margin = '2.5rem 0';
+                container.style.display = 'flex';
+                container.style.justifyContent = 'center';
+                container.style.overflow = 'auto';
+                container.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+                container.textContent = code;
+                
+                if (targetNode.parentNode) {
+                    targetNode.parentNode.replaceChild(container, targetNode);
+                }
+            });
+            
+            mermaid.initialize({
+                theme: 'dark',
+                startOnLoad: true,
+                securityLevel: 'loose',
+                themeVariables: {
+                    darkMode: true,
+                    background: '#0e0e0f',
+                    primaryColor: '#00f0ff',
+                    primaryTextColor: '#f0f0f2',
+                    primaryBorderColor: 'rgba(255, 255, 255, 0.08)',
+                    lineColor: '#7000ff',
+                    secondaryColor: '#ccff00',
+                    tertiaryColor: '#141416'
+                }
+            });
+        };
+        document.head.appendChild(script);
+    }
 });
