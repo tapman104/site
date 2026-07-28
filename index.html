@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltymanop - Independent Developer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM via CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel standalone via CDN -->
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111;
+            --text: #f0ede8;
+            --muted: #555;
+            --accent: #e8f542;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        /* Basic Reset & Setup */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body, h1, h2, h3, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+        }
+        body {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Grain Texture on body::before */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='black' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-size: 200px 200px;
+            background-repeat: repeat;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('hero.png');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.85) contrast(1.1);
+            z-index: 0;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('hero.png');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.85) contrast(1.2) blur(12px);
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%);
+            z-index: 1;
+            mix-blend-mode: screen;
+            opacity: 0.5;
+            transform: scale(1.05);
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .display-name {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 9rem);
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: var(--text);
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 0;
+            margin-right: -0.3em;
+            
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .display-name.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-transform: lowercase;
+            font-variant: small-caps;
+            letter-spacing: 0.4em;
+            margin-top: 1rem;
+            margin-right: -0.4em;
+            
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s;
+        }
+
+        .subtitle.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section Divider */
+        .section-divider {
+            border: none;
+            border-top: 1px solid #1a1a1a;
+            margin: 0;
+            width: 100%;
+            position: relative;
+            z-index: 20;
+        }
+
+        /* Skills Strip */
+        .skills-strip {
+            width: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            padding: 1.5rem 0;
+            position: relative;
+            z-index: 20;
+            display: flex;
+            white-space: nowrap;
+        }
+        
+        .skills-strip::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .skills-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 35s linear infinite;
+        }
+        
+        .skills-track.paused {
+            animation-play-state: paused;
+        }
+
+        .marquee-block {
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-item {
+            font-family: var(--font-mono);
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1.5rem;
+        }
+        
+        .skill-separator {
+            color: var(--muted);
+            opacity: 0.3;
+            font-family: var(--font-mono);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            z-index: 20;
+            position: relative;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            border: 1px solid #1a1a1a;
+            padding: 3rem 2rem;
+            background: var(--surface);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(232, 245, 66, 0.12);
+            border-color: rgba(232, 245, 66, 0.3);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.1;
+        }
+
+        .project-tag {
+            background: #1a1a1a;
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .project-desc {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--bg);
+            padding: 120px 2rem;
+            width: 100%;
+            z-index: 20;
+            position: relative;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-heading {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .about-body {
+            font-family: var(--font-body);
+            color: var(--text);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 480px;
+        }
+
+        .about-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* GitHub Card */
+        .github-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #111;
+            border: 1px solid #1e1e1e;
+            padding: 1rem;
+            text-decoration: none;
+            transition: border-color 0.2s ease;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .github-card:hover {
+            border-color: var(--accent);
+        }
+
+        .github-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .github-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .github-username {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: var(--font-body);
+        }
+
+        .github-numbers {
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .github-card.skeleton {
+            animation: pulse 1.5s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .skeleton-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #222;
+        }
+
+        .skeleton-text-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .skeleton-text-1 {
+            width: 120px;
+            height: 16px;
+            background: #222;
+        }
+        
+        .skeleton-text-2 {
+            width: 180px;
+            height: 14px;
+            background: #222;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .github-card.error {
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            justify-content: center;
+        }
+
+        /* Support Button */
+        .support-btn {
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: 1px solid #333;
+            color: var(--muted);
+            background: transparent;
+            padding: 10px 20px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+
+        .support-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .support-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Footer / Links */
+        .footer {
+            margin-top: auto;
+            padding: 4rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 20;
+            background: var(--bg);
+        }
+
+        .footer-link {
+            color: var(--muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-link:hover svg {
+            transform: scale(1.1);
+        }
+
+        .footer-year {
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .projects { padding: 4rem 1.5rem; }
+            .project-card { padding: 2rem 1.5rem; }
+            .about { padding: 80px 1.5rem; }
+            .about-container { grid-template-columns: 1fr; gap: 3rem; }
+            .footer { flex-direction: column; align-items: center; gap: 2rem; padding: 3rem 1.5rem; }
+            .project-header { flex-direction: column; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .display-name, .subtitle, .project-card, .skills-track {
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .project-card.visible {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Custom Hook for Intersection Observer
+        function useIntersectionObserver(options) {
+            const [isIntersecting, setIsIntersecting] = useState(false);
+            const ref = useRef(null);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        setIsIntersecting(true);
+                        observer.unobserve(entry.target);
+                    }
+                }, options);
+
+                if (ref.current) {
+                    observer.observe(ref.current);
+                }
+
+                return () => {
+                    if (ref.current) observer.unobserve(ref.current);
+                };
+            }, [options]);
+
+            return [ref, isIntersecting];
+        }
+
+        const Divider = () => <hr className="section-divider" />;
+
+        const Hero = () => {
+            const [isVisible, setIsVisible] = useState(false);
+            
+            useEffect(() => {
+                const timer = setTimeout(() => setIsVisible(true), 50);
+                return () => clearTimeout(timer);
+            }, []);
+
+            return (
+                <header className="hero">
+                    <div className="hero-bg"></div>
+                    <div className="hero-overlay"></div>
+                    <div className="hero-content">
+                        <h1 className={`display-name ${isVisible ? 'visible' : ''}`}>WELCOME</h1>
+                        <p className={`subtitle ${isVisible ? 'visible' : ''}`}>independent developer</p>
+                    </div>
+                </header>
+            );
+        };
+
+        const SkillsStrip = () => {
+            const skills = ['Android', 'Kotlin', 'Jetpack Compose', 'Rust', '.NET', 'Zig', 'MPV', 'Avalonia', 'Astro'];
+            const [isPaused, setIsPaused] = useState(false);
+            
+            const renderSkills = () => {
+                return skills.map((skill, index) => (
+                    <React.Fragment key={index}>
+                        <div className="skill-item">{skill}</div>
+                        <div className="skill-separator">|</div>
+                    </React.Fragment>
+                ));
+            };
+
+            return (
+                <section 
+                    className="skills-strip"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
+                    <div className={`skills-track ${isPaused ? 'paused' : ''}`}>
+                        <div className="marquee-block">
+                            {renderSkills()}
+                            {renderSkills()}
+                            {renderSkills()}
+                        </div>
+                        <div className="marquee-block">
+                            {renderSkills()}
+                            {renderSkills()}
+                            {renderSkills()}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const ProjectCard = ({ project }) => {
+            const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 });
+            
+            return (
+                <article ref={ref} className={`project-card ${isVisible ? 'visible' : ''}`}>
+                    <div className="project-header">
+                        <h2 className="project-title">{project.title}</h2>
+                        <span className="project-tag">{project.tag}</span>
+                    </div>
+                    <p className="project-desc">{project.description}</p>
+                </article>
+            );
+        };
+
+        const Projects = () => {
+            const projects = [
+                { title: 'Potato Player', description: 'Android video player powered by MPV. High performance, zero bloat.', tag: 'Android' },
+                { title: 'RemCtrl', description: 'Rust desktop server + Android remote control client. Seamless cross-device management.', tag: 'Rust' },
+                { title: 'XDown', description: 'Cross-platform download manager built in .NET/Avalonia. Fast and reliable.', tag: '.NET' }
+            ];
+
+            return (
+                <main className="projects">
+                    <div className="project-grid">
+                        {projects.map((p, i) => <ProjectCard key={i} project={p} />)}
+                    </div>
+                </main>
+            );
+        };
+
+        const About = () => {
+            const [githubData, setGithubData] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(false);
+
+            useEffect(() => {
+                fetch('https://api.github.com/users/tapman104')
+                    .then(res => {
+                        if (!res.ok) throw new Error('Failed to fetch');
+                        return res.json();
+                    })
+                    .then(data => {
+                        setGithubData(data);
+                        setLoading(false);
+                    })
+                    .catch(() => {
+                        setError(true);
+                        setLoading(false);
+                    });
+            }, []);
+
+            return (
+                <section className="about">
+                    <div className="about-container">
+                        <div className="about-left">
+                            <h2 className="about-heading">About</h2>
+                            <p className="about-body">
+                                Independent developer building tools people actually want to use. 
+                                I work across Android, Rust, .NET, and Zig — whatever fits the problem.
+                                Currently shipping Potato Player, RemCtrl, and XDown.
+                            </p>
+                        </div>
+                        <div className="about-right">
+                            {loading ? (
+                                <div className="github-card skeleton">
+                                    <div className="skeleton-avatar"></div>
+                                    <div className="skeleton-text-block">
+                                        <div className="skeleton-text-1"></div>
+                                        <div className="skeleton-text-2"></div>
+                                    </div>
+                                </div>
+                            ) : error ? (
+                                <a href="https://github.com/tapman104" target="_blank" rel="noopener noreferrer" className="github-card error">
+                                    github.com/tapman104
+                                </a>
+                            ) : (
+                                <a href="https://github.com/tapman104" target="_blank" rel="noopener noreferrer" className="github-card">
+                                    <img src={githubData.avatar_url} alt="Avatar" className="github-avatar" />
+                                    <div className="github-stats">
+                                        <div className="github-username">{githubData.login}</div>
+                                        <div className="github-numbers">
+                                            <span>{githubData.public_repos} repos</span>
+                                            <span>•</span>
+                                            <span>{githubData.followers} followers</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            )}
+                            
+                            <a href="https://buymeacoffee.com/tapman" target="_blank" rel="noopener noreferrer" className="support-btn">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM2 21h18v-2H2v2z" fill="currentColor"/>
+                                </svg>
+                                Buy me a coffee
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => {
+            const year = new Date().getFullYear();
+            return (
+                <footer className="footer">
+                    <a href="https://github.com/tapman104" target="_blank" rel="noopener noreferrer" className="footer-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                        </svg>
+                        github
+                    </a>
+                    <a href="https://www.buymeacoffee.com/tapman" target="_blank" rel="noopener noreferrer" className="footer-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM2 21h18v-2H2v2z"/>
+                        </svg>
+                        support
+                    </a>
+                    <div className="footer-year">© {year}</div>
+                </footer>
+            );
+        };
+
+        const App = () => {
+            return (
+                <React.Fragment>
+                    <Hero />
+                    <SkillsStrip />
+                    <Divider />
+                    <Projects />
+                    <Divider />
+                    <About />
+                    <Footer />
+                </React.Fragment>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
