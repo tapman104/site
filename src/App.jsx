@@ -83,35 +83,7 @@ const SkillsStrip = () => {
     );
 };
 
-const ProjectCard = ({ project }) => {
-    const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1 });
-    
-    return (
-        <article ref={ref} className={`project-card ${isVisible ? 'visible' : ''}`}>
-            <div className="project-header">
-                <h2 className="project-title">{project.title}</h2>
-                <span className="project-tag">{project.tag}</span>
-            </div>
-            <p className="project-desc">{project.description}</p>
-        </article>
-    );
-};
 
-const Projects = () => {
-    const projects = [
-        { title: 'Potato Player', description: 'Android video player powered by MPV. High performance, zero bloat.', tag: 'Android' },
-        { title: 'RemCtrl', description: 'Rust desktop server + Android remote control client. Seamless cross-device management.', tag: 'Rust' },
-        { title: 'XDown', description: 'Cross-platform download manager built in .NET/Avalonia. Fast and reliable.', tag: '.NET' }
-    ];
-
-    return (
-        <main className="projects">
-            <div className="project-grid">
-                {projects.map((p, i) => <ProjectCard key={i} project={p} />)}
-            </div>
-        </main>
-    );
-};
 
 const About = () => {
     const [githubData, setGithubData] = useState(null);
@@ -210,8 +182,6 @@ const App = () => {
         <React.Fragment>
             <Hero />
             <SkillsStrip />
-            <Divider />
-            <Projects />
             <Divider />
             <About />
             <Footer />
