@@ -110,11 +110,8 @@ const About = () => {
         <section className="about">
             <div className="about-container">
                 <div className="about-left">
-                    <h2 className="about-heading">About</h2>
                     <p className="about-body">
-                        Independent developer building tools people actually want to use. 
-                        I work across Android, Rust, .NET, and Zig — whatever fits the problem.
-                        Currently shipping Potato Player, RemCtrl, and XDown.
+                        I make Android apps & websites.
                     </p>
                 </div>
                 <div className="about-right">
